@@ -17,7 +17,7 @@ dataset = version.download("yolov8")
 -https://drive.google.com/drive/folders/1o7JvFhhiZMdNRNXmQUx-J5jo2oiiGEjO?usp=sharing
 -2 ảnh minh họa 
 -video sau khi dự đoán 
--data.yaml
+-data.yaml với 3 classes 
 ##  📁 File trong repo 
 - `train.py` – Mã huấn luyện mô hình và dự đoán ảnh.
 - `predict_video.py` – Nhận diện trong video.
