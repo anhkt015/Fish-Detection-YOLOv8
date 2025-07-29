@@ -1,0 +1,32 @@
+
+    #code trainning model với yolov8 và dự đoán ảnh test 
+    # 1. Mount Google Drive trước
+from google.colab import drive
+drive.mount('/content/drive')
+
+# 2. Cài thư viện
+!pip install -q ultralytics opencv-python roboflow
+
+# 3. Tải lại dataset
+from roboflow import Roboflow
+rf = Roboflow(api_key="ox2ikPVhbk16eKvjBy97")
+project = rf.workspace("hackertrip").project("detection-of-fish-ehwb6")
+version = project.version(1)
+dataset = version.download("yolov8")
+
+# 4. Load model từ file đã lưu (đã train đến epoch 25)
+from ultralytics import YOLO
+model = YOLO("yolov8n.pt")
+
+# 5. Tiếp tục train đến epoch 50
+model.train(
+    data="/content/Detection-of-fish-1/data.yaml",
+    epochs=50,
+    imgsz=640,
+    batch=8,
+    resume=False # ⚠️ chỉ hoạt động nếu model khởi tạo từ runs/ và không bị tách ra Drive
+)
+model = YOLO("runs/detect/train/weights/best.pt")
+
+# Dự đoán trên ảnh
+results = model.predict("/content/Detection-of-fish-1/test/images/107_jpg.rf.8916d419766aee42f24c083031e87922.jpg", save=True, conf=0.25)
